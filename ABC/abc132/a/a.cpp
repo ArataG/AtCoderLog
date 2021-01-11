@@ -25,40 +25,19 @@ template<typename T1, typename T2> void view(const vector<pair<T1,T2>>& v) {for(
 
 int main(){
   //#define int long long
-  int n;
-  cin >> n;
-  int len = pow(2,n);
-  debug(len);
-  vector<vector<int>> a(n);
-  vector<pair<int,int>> num(len);
-  //map<int,int> mp;  //選手番号とレートの管理はmapの方が簡単だった.
-  REP(i,len) {
-    int x;
-    cin >> x;
-    a[0].push_back(x);
-    num[i] = make_pair(x, i+1);
-    //mp[x] = i+1;
+  string s;
+  cin >> s;
+  map<char,int> mp;
+  REP(i,4){
+    mp[s[i]]++;
   }
 
-  REP2(i,1, n){
-    for(int j = 0; j < len; j += 2){
-      int r = a[i-1][j];
-      int l = a[i-1][j+1];
-      a[i].push_back(max(r,l));
-      
-    }
-    len /=2;
+  bool ok = true;
+  for(auto x: mp){
+    if(x.second != 2) ok = false;
   }
-  int ans = min(a[n-1][0], a[n-1][1]);
 
-
-  //cout << mp[ans] << endl;
-
-  for(auto x: num){
-    if(x.first == ans){
-      cout << x.second << endl;
-      return 0;
-    }
-  }
+  if(ok) cout << "Yes" << endl;
+  else cout << "No" << endl;
   return 0;
 }

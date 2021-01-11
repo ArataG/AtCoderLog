@@ -25,40 +25,30 @@ template<typename T1, typename T2> void view(const vector<pair<T1,T2>>& v) {for(
 
 int main(){
   //#define int long long
-  int n;
-  cin >> n;
-  int len = pow(2,n);
-  debug(len);
-  vector<vector<int>> a(n);
-  vector<pair<int,int>> num(len);
-  //map<int,int> mp;  //選手番号とレートの管理はmapの方が簡単だった.
-  REP(i,len) {
-    int x;
-    cin >> x;
-    a[0].push_back(x);
-    num[i] = make_pair(x, i+1);
-    //mp[x] = i+1;
+  ll n, cost;
+  cin >> n >> cost;
+  map<int,ll> mp; //day, cost
+  REP(i,n){
+    int a, b, c;
+    cin >> a >> b >> c;
+    mp[a] += c;
+    mp[b+1] -= c;
   }
+  //debug(mp);
 
-  REP2(i,1, n){
-    for(int j = 0; j < len; j += 2){
-      int r = a[i-1][j];
-      int l = a[i-1][j+1];
-      a[i].push_back(max(r,l));
-      
-    }
-    len /=2;
+  ll now;
+  ll sum = 0; 
+  ll ans = 0;
+  for(auto x: mp){
+    if(sum > cost) ans += cost*(x.first - now);
+    else ans += sum * (x.first - now);
+    sum += x.second;
+    now =  x.first;
+    debug(ans);
   }
-  int ans = min(a[n-1][0], a[n-1][1]);
+  
+  cout << ans << endl;
 
-
-  //cout << mp[ans] << endl;
-
-  for(auto x: num){
-    if(x.first == ans){
-      cout << x.second << endl;
-      return 0;
-    }
-  }
   return 0;
+  
 }
